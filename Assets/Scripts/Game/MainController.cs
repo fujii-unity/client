@@ -5,7 +5,7 @@ namespace IMF{
 	
 	public class MainController : SingletonMonoBehaviour<MainController> 
 	{
-		private CSVReader mapReader = null;
+		private CSVReader _mapReader = null;
 	
 		[SerializeField]
 		private GameObject _normalObj = null;
@@ -17,17 +17,17 @@ namespace IMF{
 		private GameObject _startPoint = null;
 
 		[SerializeField]
-		private Camera _mainCamera = null;
+		private Camera _mapCamera = null;
 
 		[SerializeField]
-		private Camera _subCamera = null;
+		private Camera _playerCamera = null;
 
 
 		public void Init()
 		{
 			//マップを読み込み
-			mapReader = new CSVReader ();
-			mapReader.Load (GameDefine.MAP_CSV_NAME);
+			_mapReader = new CSVReader ();
+			_mapReader.Load (GameDefine.MAP_CSV_NAME);
 
 			//マップを作成する（非同期にしたいが夢のまた夢）
 
