@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace IMF{
-	
-public class GameDefine
+namespace IMF
 {
-		public enum eMapType
-		{
-			Road = 1,
-			Station = 2,
-			StartPoint = 100,
-			GoalPoint = 101,
-		}
+    public class GameDefine
+    {
+        public enum eMapType
+        {
+            None = 0,
+            Road = 1,
+            Station = 51,
+            GoalPoint = 100,
+            Player1Point = 101,
+        }
 
-		public const string MAP_CSV_NAME = "CSV/map.csv";
-}
+        public const string MAP_CSV_NAME = "CSV/map";
+    }
 }

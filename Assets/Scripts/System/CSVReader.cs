@@ -7,62 +7,66 @@ using UnityEngine;
 
 namespace IMF
 {
-public class CSVReader {
+    public class CSVReader
+    {
 
-		/// <summary>
-		/// セルを区切る為にキャラ
-		/// </summary>
-		public const char _SPLIT_CHAR = ',';
+        /// <summary>
+        /// セルを区切る為にキャラ
+        /// </summary>
+        public const char _SPLIT_CHAR = ',';
 
-		// 読み込んだデータ
-		List<List<int>> m_data = null;
-		TextAsset m_textAsset = null;
+        // 読み込んだデータ
+        List<List<int>> _dataList = null;
+        public List<List<int>> dataList { get { return _dataList; } }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="comment">コメントの文字列</param>
-		/// <param name="isReadFromDisc">Resourcesでなくディスク(フルパス)から読み込むか</param>
-		public CSVReader()
-		{
-			m_textAsset = null;
-			m_data = new List<List<int>>();
-		}
+        TextAsset _textAsset = null;
 
-		private TextReader CreateTextReader(string fileName)
-		{
-			m_textAsset = Resources.Load<TextAsset>(fileName);
-			return new StringReader(m_textAsset.text);
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="comment">コメントの文字列</param>
+        /// <param name="isReadFromDisc">Resourcesでなくディスク(フルパス)から読み込むか</param>
+        public CSVReader()
+        {
+            _textAsset = null;
+            _dataList = new List<List<int>>();
+        }
 
-		public bool Load(string fileName) 
-		{            
-			m_data.Clear();
-			TextReader reader = CreateTextReader(fileName);
+        private TextReader CreateTextReader(string fileName)
+        {
+            _textAsset = Resources.Load<TextAsset>(fileName);
+            return new StringReader(_textAsset.text);
+        }
 
-			int counter = 0;
-			string line = "";
-			while ( ( line = reader.ReadLine()) != null ) 
-			{
-				// 今の列をマス毎に区切る
-				string[] fields = line.Split( _SPLIT_CHAR );
-				m_data.Add( new List<int>() );
+        public bool Load(string fileName)
+        {
+            _dataList.Clear();
+            TextReader reader = CreateTextReader(fileName);
 
-				foreach ( var field in fields )
-				{
-					if (field == "")
-					{
-						continue;    
-					}
-					m_data[ counter ].Add( int.Parse(field) );
-				}
-				counter++;
-			}
-			// 読み込んだリソースを開放する
-			Resources.UnloadAsset(m_textAsset);
-			m_textAsset = null;
-			Resources.UnloadUnusedAssets();
-			return true;
-		}
-	}
+            int counter = 0;
+            string line = "";
+            while ((line = reader.ReadLine()) != null)
+            {
+                // 今の列をマス毎に区切る
+                string[] fields = line.Split(_SPLIT_CHAR);
+                _dataList.Add(new List<int>());
+
+                foreach (var field in fields)
+                {
+                    if (field == "")
+                    {
+                        _dataList[counter].Add((int)GameDefine.eMapType.None);
+                        continue;
+                    }
+                    _dataList[counter].Add(int.Parse(field));
+                }
+                counter++;
+            }
+            // 読み込んだリソースを開放する
+            Resources.UnloadAsset(_textAsset);
+            _textAsset = null;
+            Resources.UnloadUnusedAssets();
+            return true;
+        }
+    }
 }
