@@ -11,7 +11,7 @@ namespace IMF
         void Start()
         {
             MainController.instance.Init();
-
+            MainController.instance.GameStart();
         }
 
     }
